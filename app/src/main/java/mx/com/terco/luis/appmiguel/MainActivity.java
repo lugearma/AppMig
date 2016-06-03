@@ -1,8 +1,10 @@
 package mx.com.terco.luis.appmiguel;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
+import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -24,6 +27,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnMenuTabClickListener;
 
 import org.json.JSONException;
 
@@ -32,6 +37,10 @@ import mx.com.terco.luis.appmiguel.io.VolleySingleton;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private BottomBar mBottomBar;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +58,9 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //BottomBar config
+        setupBottomBar(savedInstanceState, this);
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -59,6 +71,40 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         getDataPortada();
+    }
+
+    private void setupBottomBar(Bundle savedInstanceState, final Context context){
+        mBottomBar = BottomBar.attach(this, savedInstanceState);
+
+        mBottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
+            @Override
+            public void onMenuTabSelected(@IdRes int menuItemId) {
+                if (menuItemId == R.id.bottomBarItemOne) {
+                    Toast.makeText(context, "selecccionaste uno", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(context, "selecccionaste dos", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onMenuTabReSelected(@IdRes int menuItemId) {
+                if (menuItemId == R.id.bottomBarItemOne) {
+                    // The user reselected item number one, scroll your content to top.
+                }
+            }
+        });
+
+        mBottomBar.mapColorForTab(0, "#7B1FA2");
+        mBottomBar.mapColorForTab(1, "#FF5252");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // Necessary to restore the BottomBar's state, otherwise we would
+        // lose the current tab on orientation change.
+        mBottomBar.onSaveInstanceState(outState);
     }
 
     @Override
