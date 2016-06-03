@@ -1,5 +1,8 @@
 package mx.com.terco.luis.appmiguel;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +10,7 @@ import android.provider.SyncStateContract;
 import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -24,16 +28,18 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
-import org.json.JSONException;
-
 import mx.com.terco.luis.appmiguel.io.Constant;
 import mx.com.terco.luis.appmiguel.io.VolleySingleton;
+import mx.com.terco.luis.appmiguel.ui.fragment.DeportesFragment;
+import mx.com.terco.luis.appmiguel.ui.fragment.EspectaculosFragment;
+import mx.com.terco.luis.appmiguel.ui.fragment.ImagenesFragment;
+import mx.com.terco.luis.appmiguel.ui.fragment.InternacionalFragment;
+import mx.com.terco.luis.appmiguel.ui.fragment.NacionalFragment;
+import mx.com.terco.luis.appmiguel.ui.fragment.PortadaFragment;
+import mx.com.terco.luis.appmiguel.ui.fragment.VideosFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -48,15 +54,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         //BottomBar config
         setupBottomBar(savedInstanceState, this);
@@ -145,18 +142,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_portada) {
-            // Handle the camera action
-        } else if (id == R.id.nav_nacional) {
-
-        } else if (id == R.id.nav_internacional) {
-
-        } else if (id == R.id.nav_deportes) {
-
-        } else if (id == R.id.nav_espectaculos) {
-
-        }
-
+        selectItem(id);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -202,5 +188,65 @@ public class MainActivity extends AppCompatActivity
 
     private void parsingData() {
 
+    }
+
+    private void selectItem(int position) {
+
+        Fragment newFragment;
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        switch (position) {
+
+            case R.id.nav_portada:
+                newFragment = new PortadaFragment();
+                transaction.replace(R.id.content_frame, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+
+            case R.id.nav_deportes:
+                newFragment = new DeportesFragment();
+                transaction.replace(R.id.content_frame, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+
+            case R.id.nav_espectaculos:
+                newFragment = new EspectaculosFragment();
+                transaction.replace(R.id.content_frame, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+
+            /*case 2:
+                newFragment = new ImagenesFragment();
+                transaction.replace(R.id.content_frame, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;*/
+
+            case R.id.nav_internacional:
+                newFragment = new InternacionalFragment();
+                transaction.replace(R.id.content_frame, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+
+            case R.id.nav_nacional:
+                newFragment = new NacionalFragment();
+                transaction.replace(R.id.content_frame, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+
+            /*case 5:
+                newFragment = new VideosFragment();
+                transaction.replace(R.id.content_frame, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;*/
+
+
+        }
     }
 }

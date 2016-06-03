@@ -4,10 +4,15 @@
         <item
             android:id="@+id/bottomBarItemOne"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Recents" />
+            android:title="Anterior" />
 
     <item
         android:id="@+id/bottomBarItemTwo"
         android:icon="@drawable/ic_menu_gallery"
-        android:title="Recents" />
+        android:title="Home" />
+
+    <item
+        android:id="@+id/bottomBarItemThree"
+        android:icon="@drawable/ic_menu_gallery"
+        android:title="Siguiente" />
 </menu>
